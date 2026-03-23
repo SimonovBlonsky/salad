@@ -8,12 +8,12 @@ from torch.utils.data import Dataset
 # the folders named ref and query should reside in DATASET_ROOT path
 # I hardcoded the image names and ground truth for faster evaluation
 # performance is exactly the same as if you use VPR-Bench.
-DATASET_ROOT = '../data/Pittsburgh/'
+DATASET_ROOT = './data/Pittsburgh/'
 GT_ROOT = './datasets/' # BECAREFUL, this is the ground truth that comes with GSV-Cities
 
 path_obj = Path(DATASET_ROOT)
 if not path_obj.exists():
-    raise Exception(f'Please make sure the path {DATASET_ROOT} to Nordland dataset is correct')
+    raise Exception(f'Please make sure the path {DATASET_ROOT} to Pittsburgh dataset is correct')
 
 if not path_obj.joinpath('ref') or not path_obj.joinpath('query'):
     raise Exception(f'Please make sure the directories query and ref are situated in the directory {DATASET_ROOT}')
