@@ -8,10 +8,11 @@ import argparse
 from vpr_model import VPRModel
 from utils.validation import get_validation_recalls
 # Dataloader
-from dataloaders.val.NordlandDataset import NordlandDataset
-from dataloaders.val.MapillaryDataset import MSLS
+# 032626: Hide some dataloader to avoid bugs
+# from dataloaders.val.NordlandDataset import NordlandDataset
+# from dataloaders.val.MapillaryDataset import MSLS
 from dataloaders.val.MapillaryTestDataset import MSLSTest
-from dataloaders.val.PittsburghDataset import PittsburghDataset
+# from dataloaders.val.PittsburghDataset import PittsburghDataset
 from dataloaders.val.SPEDDataset import SPEDDataset
 
 VAL_DATASETS = ['MSLS', 'MSLS_Test', 'pitts30k_test', 'pitts250k_test', 'Nordland', 'SPED']
@@ -35,19 +36,19 @@ def get_val_dataset(dataset_name, image_size=None):
     dataset_name = dataset_name.lower()
     transform = input_transform(image_size=image_size)
     
-    if 'nordland' in dataset_name:    
-        ds = NordlandDataset(input_transform=transform)
+    # if 'nordland' in dataset_name:    
+    #     ds = NordlandDataset(input_transform=transform)
 
-    elif 'msls_test' in dataset_name:
-        ds = MSLSTest(input_transform=transform)
+    # elif 'msls_test' in dataset_name:
+    #     ds = MSLSTest(input_transform=transform)
 
-    elif 'msls' in dataset_name:
-        ds = MSLS(input_transform=transform)
+    # elif 'msls' in dataset_name:
+    #     ds = MSLS(input_transform=transform)
 
-    elif 'pitts' in dataset_name:
-        ds = PittsburghDataset(which_ds=dataset_name, input_transform=transform)
+    # elif 'pitts' in dataset_name:
+    #     ds = PittsburghDataset(which_ds=dataset_name, input_transform=transform)
 
-    elif 'sped' in dataset_name:
+    if 'sped' in dataset_name:
         ds = SPEDDataset(input_transform=transform)
     else:
         raise ValueError
@@ -77,11 +78,18 @@ def load_model(ckpt_path):
             'norm_layer': True,
         },
         agg_arch='SALAD',
+        # agg_config={
+        #     'num_channels': 768,
+        #     'num_clusters': 64,
+        #     'cluster_dim': 128,
+        #     'token_dim': 256,
+        # },
+        # 032626: Change parameters to fit DINO SALAD 512_32
         agg_config={
             'num_channels': 768,
-            'num_clusters': 64,
-            'cluster_dim': 128,
-            'token_dim': 256,
+            'num_clusters': 16,
+            'cluster_dim': 32,
+            'token_dim': 32,
         },
     )
 

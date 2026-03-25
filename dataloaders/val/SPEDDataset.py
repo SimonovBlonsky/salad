@@ -9,8 +9,10 @@ from torch.utils.data import Dataset
 # I hardcoded the image names and ground truth for faster evaluation
 # performance is exactly the same as if you use VPR-Bench.
 
-DATASET_ROOT = './data/SPEDTEST/'
-GT_ROOT = './datasets/' # BECAREFUL, this is the ground truth that comes with GSV-Cities
+# DATASET_ROOT = './data/SPEDTEST/'
+# GT_ROOT = './datasets/' # BECAREFUL, this is the ground truth that comes with GSV-Cities
+DATASET_ROOT = '/home/chenguyuan/code/NeurIPS26/LoopAnything/da3_streaming/loop_utils/salad/data/SPEDTEST/'
+GT_ROOT = '/home/chenguyuan/code/NeurIPS26/LoopAnything/da3_streaming/loop_utils/salad/datasets/'
 
 path_obj = Path(DATASET_ROOT)
 if not path_obj.exists():

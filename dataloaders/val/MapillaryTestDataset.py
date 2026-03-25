@@ -7,8 +7,8 @@ import numpy as np
 from PIL import Image
 from pathlib import Path
 
-DATASET_ROOT = './data/mapillary/'
-GT_ROOT = './datasets/' # BECAREFUL, this is the ground truth that comes with GSV-Cities
+DATASET_ROOT = '/home/chenguyuan/code/NeurIPS26/LoopAnything/da3_streaming/loop_utils/salad/data/mapillary/'
+GT_ROOT = '/home/chenguyuan/code/NeurIPS26/LoopAnything/da3_streaming/loop_utils/salad/datasets/' # BECAREFUL, this is the ground truth that comes with GSV-Cities
 
 class MSLSTest(Dataset):
     def __init__(self, input_transform = None):
