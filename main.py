@@ -13,7 +13,8 @@ if __name__ == '__main__':
         image_size=(224, 224),
         num_workers=10,
         show_data_stats=True,
-        val_set_names=['pitts30k_val', 'pitts30k_test', 'msls_val'], # pitts30k_val, pitts30k_test, msls_val
+        val_set_names=['pitts30k_val', 'pitts30k_test'],
+        # val_set_names=['pitts30k_val', 'pitts30k_test', 'msls_val'], # pitts30k_val, pitts30k_test, msls_val
     )
     
     model = VPRModel(
