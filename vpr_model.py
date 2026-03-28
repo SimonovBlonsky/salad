@@ -92,22 +92,26 @@ class VPRModel(pl.LightningModule):
     
     # configure the optimizer 
     def configure_optimizers(self):
+        trainable_parameters = [parameter for parameter in self.parameters() if parameter.requires_grad]
+        if not trainable_parameters:
+            raise ValueError('No trainable parameters found for optimization')
+
         if self.optimizer.lower() == 'sgd':
             optimizer = torch.optim.SGD(
-                self.parameters(), 
+                trainable_parameters, 
                 lr=self.lr, 
                 weight_decay=self.weight_decay, 
                 momentum=self.momentum
             )
         elif self.optimizer.lower() == 'adamw':
             optimizer = torch.optim.AdamW(
-                self.parameters(), 
+                trainable_parameters, 
                 lr=self.lr, 
                 weight_decay=self.weight_decay
             )
         elif self.optimizer.lower() == 'adam':
             optimizer = torch.optim.AdamW(
-                self.parameters(), 
+                trainable_parameters, 
                 lr=self.lr, 
                 weight_decay=self.weight_decay
             )

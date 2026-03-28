@@ -34,6 +34,27 @@ class DINOv2(nn.Module):
         self.num_trainable_blocks = num_trainable_blocks
         self.norm_layer = norm_layer
         self.return_token = return_token
+        self._configure_trainable_parameters()
+
+    def train(self, mode=True):
+        if self.num_trainable_blocks <= 0:
+            return super().train(False)
+        return super().train(mode)
+
+    def _configure_trainable_parameters(self):
+        for parameter in self.model.parameters():
+            parameter.requires_grad = False
+
+        if self.num_trainable_blocks <= 0:
+            return
+
+        for blk in self.model.blocks[-self.num_trainable_blocks:]:
+            for parameter in blk.parameters():
+                parameter.requires_grad = True
+
+        if self.norm_layer:
+            for parameter in self.model.norm.parameters():
+                parameter.requires_grad = True
 
 
     def forward(self, x):
@@ -51,15 +72,21 @@ class DINOv2(nn.Module):
         B, C, H, W = x.shape
 
         x = self.model.prepare_tokens_with_masks(x)
-        
-        # First blocks are frozen
+
+        if self.num_trainable_blocks > 0:
+            frozen_blocks = self.model.blocks[:-self.num_trainable_blocks]
+            trainable_blocks = self.model.blocks[-self.num_trainable_blocks:]
+        else:
+            frozen_blocks = self.model.blocks
+            trainable_blocks = []
+
         with torch.no_grad():
-            for blk in self.model.blocks[:-self.num_trainable_blocks]:
+            for blk in frozen_blocks:
                 x = blk(x)
         x = x.detach()
 
         # Last blocks are trained
-        for blk in self.model.blocks[-self.num_trainable_blocks:]:
+        for blk in trainable_blocks:
             x = blk(x)
 
         if self.norm_layer:
