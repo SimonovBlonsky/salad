@@ -12,7 +12,7 @@ from utils.validation import get_validation_recalls
 # from dataloaders.val.NordlandDataset import NordlandDataset
 # from dataloaders.val.MapillaryDataset import MSLS
 from dataloaders.val.MapillaryTestDataset import MSLSTest
-# from dataloaders.val.PittsburghDataset import PittsburghDataset
+from dataloaders.val.PittsburghDataset import PittsburghDataset
 from dataloaders.val.SPEDDataset import SPEDDataset
 
 VAL_DATASETS = ['MSLS', 'MSLS_Test', 'pitts30k_test', 'pitts250k_test', 'Nordland', 'SPED']
@@ -45,10 +45,10 @@ def get_val_dataset(dataset_name, image_size=None):
     # elif 'msls' in dataset_name:
     #     ds = MSLS(input_transform=transform)
 
-    # elif 'pitts' in dataset_name:
-    #     ds = PittsburghDataset(which_ds=dataset_name, input_transform=transform)
+    if 'pitts' in dataset_name:
+        ds = PittsburghDataset(which_ds=dataset_name, input_transform=transform)
 
-    if 'sped' in dataset_name:
+    elif 'sped' in dataset_name:
         ds = SPEDDataset(input_transform=transform)
     else:
         raise ValueError

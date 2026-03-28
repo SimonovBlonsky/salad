@@ -84,9 +84,9 @@ class VPRModel(pl.LightningModule):
     def forward(self, x):
         x = self.backbone(x)
         # 032626: Replace cls_token to zero to unify settings the same as DA3
-        if self.agg_arch.lower() == 'salad' and isinstance(x, (tuple, list)) and len(x) == 2:
-            feature_map, cls_token = x
-            x = (feature_map, torch.zeros_like(cls_token))
+        # if self.agg_arch.lower() == 'salad' and isinstance(x, (tuple, list)) and len(x) == 2:
+        #     feature_map, cls_token = x
+        #     x = (feature_map, torch.zeros_like(cls_token))
         x = self.aggregator(x)
         return x
     
