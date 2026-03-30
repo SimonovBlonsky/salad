@@ -21,7 +21,7 @@ if __name__ == '__main__':
         #---- Encoder
         backbone_arch='dinov2_vitb14',
         backbone_config={
-            'num_trainable_blocks': 0,
+            'num_trainable_blocks': 4,
             'return_token': True,
             'norm_layer': True,
         },
